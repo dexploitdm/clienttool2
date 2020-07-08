@@ -1,0 +1,751 @@
+<template>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Категории</h4>
+                    </div>
+                    <div class="card-body">
+                        <form @submit="formSubmit" enctype="multipart/form-data">
+                            <el-row :gutter="20">
+                                <el-col :span="12">
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Введите название сервиса</span>
+                                        <el-input placeholder="Введите название сервиса"  v-model="service.title" />
+                                    </div>
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Краткое описание</span>
+                                        <el-input
+                                            type="textarea"
+                                            :rows="2"
+                                            placeholder="Краткое описание"
+                                            v-model="service.desc">
+                                        </el-input>
+                                    </div>
+                                </el-col>
+                                <el-col :span="12">
+                                    <div class="t-control t-box">
+                                        <el-select v-model="cats"
+                                                   multiple
+                                                   filterable
+                                                   default-first-option
+                                                   placeholder="Выбор категории"
+                                                   class="full">
+                                            <el-option-group
+                                                v-for="group in categoryAll"
+                                                :key="group.label"
+                                                :label="group.label">
+                                                <el-option
+                                                    v-for="item in group.categoryAll"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                                </el-option>
+                                            </el-option-group>
+                                        </el-select>
+
+                                    </div>
+                                    <div class="t-control t-box">
+                                        <div>
+                                            <span class="demonstration">Простота использования</span>
+                                            <el-rate v-model="service.assessmentUse" />
+                                        </div>
+                                        <div>
+                                            <span class="demonstration">Обслуживания клиентов</span>
+                                            <el-rate v-model="service.assessmentSupport" />
+                                        </div>
+                                        <div>
+                                            <span class="demonstration">Общая оценка</span>
+                                            <el-rate v-model="service.assessmentRecommend" />
+                                        </div>
+                                    </div>
+                                    <div class="t-control t-box">
+
+                                    </div>
+                                </el-col>
+                            </el-row>
+
+                            <div class="t-control t-box">
+                                <TuiEditor
+                                    mode="markdown"
+                                    preview-style="vertical"
+                                    height="300px"
+                                    v-model="service.content"
+                                />
+                            </div>
+
+                            <el-row :gutter="20">
+                                <el-col :span="12">
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Ссылка на сайт</span>
+                                        <el-input placeholder="Ссылка на сайт"  v-model="service.linkSite" />
+                                    </div>
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Ссылка на кейсы</span>
+                                        <el-input placeholder="Ссылка на кейсы"  v-model="service.linkCases" />
+                                    </div>
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Ссылка на инструкции</span>
+                                        <el-input placeholder="Ссылка на инструкции"  v-model="service.linkInstructions" />
+                                    </div>
+                                </el-col>
+                                <el-col :span="12">
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Ссылка на видео</span>
+                                        <el-input placeholder="Ссылка на видео"  v-model="service.linkVideo" />
+                                    </div>
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Ссылка на API</span>
+                                        <el-input placeholder="Ссылка на API"  v-model="service.linkAPI" />
+                                    </div>
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Метод оплаты</span>
+                                        <el-input placeholder="Метод оплаты"  v-model="service.methodsPay" />
+                                    </div>
+                                </el-col>
+                            </el-row>
+                            <el-row :gutter="20">
+                                <el-col :span="12">
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Платформы установки ({{service.systemInstall}})</span>
+                                        <el-select
+                                            v-model="systemIntFormat"
+                                            multiple
+                                            collapse-tags
+                                            style="margin-left: 20px;"
+                                            placeholder="Выбрать">
+                                            <el-option
+                                                v-for="item in systemInstallAll"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </div>
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Для кого</span>
+                                        <el-select
+                                            v-model="professions"
+                                            multiple
+                                            filterable
+                                            allow-create
+                                            default-first-option
+                                            placeholder="Для кого"
+                                            class="full">
+                                            <el-option
+                                                v-for="item in professionsOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </div>
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Для кого</span>
+                                        <el-checkbox-group v-model="business">
+                                            <el-checkbox label="Маленький"></el-checkbox>
+                                            <el-checkbox label="Средний"></el-checkbox>
+                                            <el-checkbox label="Крупный"></el-checkbox>
+                                        </el-checkbox-group>
+                                        <span class="t-box-title">Бизнес для:</span>
+                                        <el-checkbox-group v-model="businessFor">
+                                            <el-checkbox label="Бизнеса"></el-checkbox>
+                                            <el-checkbox label="Потребителя"></el-checkbox>
+                                        </el-checkbox-group>
+                                    </div>
+                                    <div class="t-control t-box">
+                                        <span class="t-box-title">Отрасли</span>
+                                        <el-select v-model="service.industries" placeholder="Выбор отрасли" class="full">
+                                            <el-option-group
+                                                v-for="group in industriesAll"
+                                                :key="group.label"
+                                                :label="group.label">
+                                                <el-option
+                                                    v-for="item in group.industriesAll"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                                </el-option>
+                                            </el-option-group>
+                                        </el-select>
+                                    </div>
+                                </el-col>
+                                <el-col :span="12">
+<!--                                    <div class="t-control t-box">-->
+<!--                                        <el-select-->
+<!--                                            v-model="service.socials"-->
+<!--                                            multiple-->
+<!--                                            filterable-->
+<!--                                            allow-create-->
+<!--                                            default-first-option-->
+<!--                                            placeholder="Введите ссылки на соц. сети"-->
+<!--                                            class="full">-->
+<!--                                            <el-option-->
+<!--                                                v-for="item in socialsOptions"-->
+<!--                                                :key="item.value"-->
+<!--                                                :label="item.label"-->
+<!--                                                :value="item.value">-->
+<!--                                            </el-option>-->
+<!--                                        </el-select>-->
+<!--                                    </div>-->
+                                    <div class="t-control t-box t-box-image">
+                                        <span class="t-box-title">Логотип</span>
+                                        <div class="control-flex">
+                                            <input type="file" v-on:change="onImageChange" class="form-control">
+                                            <div class="t-box-image-cover">
+                                                <img id="image" :src="urlImage + 'services/' + service.logo" alt="" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="t-control t-box">
+                                        <div class="control-flex" style="align-items: initial">
+                                            <div class="t-control t-box" style="flex-basis: 35%;">
+                                                <span class="t-box-title">Бесплатный тариф</span>
+                                                <el-checkbox v-model="freeRateCheck">
+                                                    <span v-if="freeRateCheck === true">Да</span>
+                                                    <span v-else>Нет</span>
+                                                </el-checkbox>
+                                            </div>
+                                            <div class="t-control t-box">
+                                                <el-collapse>
+                                                    <el-collapse-item title="Пробный период" >
+                                                        <div class="t-control t-box">
+                                                            <span class="t-box-title">Дата</span>
+                                                            <el-input placeholder="Укажите дату"  v-model="service.testPeriodDate" />
+                                                        </div>
+                                                        <div class="t-control t-box">
+                                                            <span class="t-box-title">Ссылка на пробный период</span>
+                                                            <el-input placeholder="Ссылка"  v-model="service.testPeriodLink" />
+                                                        </div>
+                                                    </el-collapse-item>
+                                                </el-collapse>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="t-control t-box">
+                                        <div class="control-flex">
+                                            <div class="t-control t-box" style="margin-right: 10px">
+                                                <div class="t-control t-box">
+                                                    <span class="t-box-title">Цена</span>
+                                                    <el-input placeholder="Цена"  v-model="service.priceStart" />
+                                                </div>
+                                            </div>
+                                            <div class="t-control t-box">
+                                                <div class="t-control t-box">
+                                                    <span class="t-box-title">Доступные языки</span>
+                                                    <el-select
+                                                        v-model="languages"
+                                                        multiple
+                                                        filterable
+                                                        allow-create
+                                                        default-first-option
+                                                        placeholder="Доступные языки"
+                                                        class="t-select many">
+                                                        <el-option
+                                                            v-for="item in languagesData"
+                                                            :key="item.value"
+                                                            :label="item.label"
+                                                            :value="item.value">
+                                                        </el-option>
+                                                    </el-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </el-col>
+                            </el-row>
+                            <el-row :gutter="20">
+                                <el-col :span="24">
+                                    <el-collapse>
+                                        <el-collapse-item title="Особенности и возможности сервиса" >
+                                            <el-button icon="el-icon-plus" circle  @click="addFeatures"></el-button>
+                                            <div class="edit-features">
+                                                <div v-for="item in service.features" class="features-item">
+                                                    <div>
+                                                        <div class="t-control t-box">
+                                                            <span class="t-box-title">Название</span>
+                                                            <el-input v-model="item.title" />
+                                                        </div>
+                                                        <div class="t-control t-box">
+                                                            <span class="t-box-title">Cписок возможностей</span>
+                                                            <el-select
+                                                                v-model="item.list"
+                                                                multiple
+                                                                filterable
+                                                                allow-create
+                                                                default-first-option
+                                                                placeholder="Добавьте список"
+                                                                class="t-select many">
+                                                            </el-select>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="t-control t-box">
+                                                            <span class="t-box-title">Описание возможностей</span>
+                                                            <el-input
+                                                                type="textarea"
+                                                                :rows="2"
+                                                                :autosize="{ minRows: 2, maxRows: 6}"
+                                                                v-model="item.desc">
+                                                            </el-input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </el-collapse-item>
+                                    </el-collapse>
+
+                                </el-col>
+                            </el-row>
+                            <el-row :gutter="20">
+                                <el-col :span="24">
+
+                                    <el-collapse>
+                                        <el-collapse-item title="Интерфейс" >
+                                            <div class="interface">
+
+                                                <div class="interface-item">
+                                                    <div v-if="service.image0">
+                                                        <div class="interface-cover">
+                                                            <el-button class="change" icon="el-icon-camera-solid"
+                                                                       @click="replaceImage(0)" circle />
+                                                            <div class="interface-cover-bg"
+                                                                 :style="'background-image: url(' + urlImage + 'services/items/' + service.image0 + ');'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="not-image">
+                                                        <el-button class="change" icon="el-icon-camera-solid"
+                                                                   @click="replaceImage(0)" circle />
+                                                        <img src="/images/others/notimage.png"></div>
+                                                    <input type="file" id="imageCover0" class="hidden" data-item="0" v-on:change="onImageChangeImage" />
+                                                </div>
+                                                <div class="interface-item">
+                                                    <div v-if="service.image1">
+                                                        <div class="interface-cover">
+                                                            <el-button class="change" icon="el-icon-camera-solid"
+                                                                       @click="replaceImage(1)" circle />
+                                                            <div class="interface-cover-bg"
+                                                                 :style="'background-image: url(' + urlImage + 'services/items/' + service.image1 + ');'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="not-image">
+                                                        <el-button class="change" icon="el-icon-camera-solid"
+                                                                   @click="replaceImage(1)" circle />
+                                                        <img src="/images/others/notimage.png"></div>
+                                                    <input type="file" id="imageCover1" class="hidden" data-item="1" v-on:change="onImageChangeImage" />
+                                                </div>
+                                                <div class="interface-item">
+                                                    <div v-if="service.image2">
+                                                        <div class="interface-cover">
+                                                            <el-button class="change" icon="el-icon-camera-solid"
+                                                                       @click="replaceImage(2)" circle />
+                                                            <div class="interface-cover-bg"
+                                                                 :style="'background-image: url(' + urlImage + 'services/items/' + service.image2 + ');'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="not-image">
+                                                        <el-button class="change" icon="el-icon-camera-solid"
+                                                                   @click="replaceImage(2)" circle />
+                                                        <img src="/images/others/notimage.png"></div>
+                                                    <input type="file" id="imageCover2" class="hidden" data-item="2" v-on:change="onImageChangeImage" />
+                                                </div>
+                                                <div class="interface-item">
+                                                    <div v-if="service.image3">
+                                                        <div class="interface-cover">
+                                                            <el-button class="change" icon="el-icon-camera-solid"
+                                                                       @click="replaceImage(3)" circle />
+                                                            <div class="interface-cover-bg"
+                                                                 :style="'background-image: url(' + urlImage + 'services/items/' + service.image3 + ');'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="not-image">
+                                                        <el-button class="change" icon="el-icon-camera-solid"
+                                                                   @click="replaceImage(3)" circle />
+                                                        <img src="/images/others/notimage.png"></div>
+                                                    <input type="file" id="imageCover3" class="hidden" data-item="3" v-on:change="onImageChangeImage" />
+                                                </div>
+                                                <div class="interface-item">
+                                                    <div v-if="service.image4">
+                                                        <div class="interface-cover">
+                                                            <el-button class="change" icon="el-icon-camera-solid"
+                                                                       @click="replaceImage(4)" circle />
+                                                            <div class="interface-cover-bg"
+                                                                 :style="'background-image: url(' + urlImage + 'services/items/' + service.image4 + ');'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="not-image">
+                                                        <el-button class="change" icon="el-icon-camera-solid"
+                                                                   @click="replaceImage(4)" circle />
+                                                        <img src="/images/others/notimage.png"></div>
+                                                    <input type="file" id="imageCover4" class="hidden" data-item="4" v-on:change="onImageChangeImage" />
+                                                </div>
+                                                <div class="interface-item">
+                                                    <div v-if="service.image5">
+                                                        <div class="interface-cover">
+                                                            <el-button class="change" icon="el-icon-camera-solid"
+                                                                       @click="replaceImage(5)" circle />
+                                                            <div class="interface-cover-bg"
+                                                                 :style="'background-image: url(' + urlImage + 'services/items/' + service.image5 + ');'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="not-image">
+                                                        <el-button class="change" icon="el-icon-camera-solid"
+                                                                   @click="replaceImage(5)" circle />
+                                                        <img src="/images/others/notimage.png"></div>
+                                                    <input type="file" id="imageCover5" class="hidden" data-item="5" v-on:change="onImageChangeImage" />
+                                                </div>
+                                                <div class="interface-item">
+                                                    <div v-if="service.image6">
+                                                        <div class="interface-cover">
+                                                            <el-button class="change" icon="el-icon-camera-solid"
+                                                                       @click="replaceImage(6)" circle />
+                                                            <div class="interface-cover-bg"
+                                                                 :style="'background-image: url(' + urlImage + 'services/items/' + service.image6 + ');'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="not-image">
+                                                        <el-button class="change" icon="el-icon-camera-solid"
+                                                                   @click="replaceImage(6)" circle />
+                                                        <img src="/images/others/notimage.png"></div>
+                                                    <input type="file" id="imageCover6" class="hidden" data-item="6" v-on:change="onImageChangeImage" />
+                                                </div>
+                                                <div class="interface-item">
+                                                    <div v-if="service.image7">
+                                                        <div class="interface-cover">
+                                                            <el-button class="change" icon="el-icon-camera-solid"
+                                                                       @click="replaceImage(7)" circle />
+                                                            <div class="interface-cover-bg"
+                                                                 :style="'background-image: url(' + urlImage + 'services/items/' + service.image7 + ');'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="not-image">
+                                                        <el-button class="change" icon="el-icon-camera-solid"
+                                                                   @click="replaceImage(7)" circle />
+                                                        <img src="/images/others/notimage.png"></div>
+                                                    <input type="file" id="imageCover7" class="hidden" data-item="7" v-on:change="onImageChangeImage" />
+                                                </div>
+                                                <div class="interface-item">
+                                                    <div v-if="service.image8">
+                                                        <div class="interface-cover">
+                                                            <el-button class="change" icon="el-icon-camera-solid"
+                                                                       @click="replaceImage(8)" circle />
+                                                            <div class="interface-cover-bg"
+                                                                 :style="'background-image: url(' + urlImage + 'services/items/' + service.image8 + ');'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="not-image">
+                                                        <el-button class="change" icon="el-icon-camera-solid"
+                                                                   @click="replaceImage(8)" circle />
+                                                        <img src="/images/others/notimage.png"></div>
+                                                    <input type="file" id="imageCover8" class="hidden" data-item="8" v-on:change="onImageChangeImage" />
+                                                </div>
+                                                <div class="interface-item">
+                                                    <div v-if="service.image9">
+                                                        <div class="interface-cover">
+                                                            <el-button class="change" icon="el-icon-camera-solid"
+                                                                       @click="replaceImage(9)" circle />
+                                                            <div class="interface-cover-bg"
+                                                                 :style="'background-image: url(' + urlImage + 'services/items/' + service.image9 + ');'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="not-image">
+                                                        <el-button class="change" icon="el-icon-camera-solid"
+                                                                   @click="replaceImage(9)" circle />
+                                                        <img src="/images/others/notimage.png"></div>
+                                                    <input type="file" id="imageCover9" class="hidden" data-item="9" v-on:change="onImageChangeImage" />
+                                                </div>
+
+                                            </div>
+                                        </el-collapse-item>
+                                    </el-collapse>
+                                    <el-collapse>
+                                        <el-collapse-item title="Персональные данные">
+
+                                            <el-row :gutter="20">
+                                                <el-col :span="12">
+                                                    <div class="t-control t-box">
+                                                        <span class="t-box-title">Имя</span>
+                                                        <el-input placeholder="Имя"  v-model="service.name" />
+                                                    </div>
+                                                    <div class="t-control t-box">
+                                                        <span class="t-box-title">Email на домене вашего сервиса</span>
+                                                        <el-input placeholder="Email"  v-model="service.email" />
+                                                    </div>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <div class="t-control t-box">
+                                                        <span class="t-box-title">Фамилия</span>
+                                                        <el-input placeholder="Фамилия"  v-model="service.surname" />
+                                                    </div>
+                                                </el-col>
+                                            </el-row>
+
+                                        </el-collapse-item>
+                                    </el-collapse>
+                                </el-col>
+                            </el-row>
+                            <div class="t-control">
+                                <!--                            <el-button type="success" plain @click="saveService">Сохранить</el-button>-->
+                                <button class="btn btn-success">Сохранить</button>
+                            </div>
+                        </form>
+                        <div class="form-output" v-if="output">
+                            {{output}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    const baseUrlUploads = process.env.baseUrlImage;
+    import axios from "axios";
+    export default {
+        layout: 'admin',
+        name: "serviceEdit",
+        data(){
+            return {
+                loading: true,
+                service: [],
+                urlImage: baseUrlUploads,
+                systemIntFormat: [],
+                professions: [],
+                professionsOptions: [],
+                cats: [],
+                languages: [],
+                business: [],
+                businessFor: [],
+                freeRateCheck: false,
+                imagesItems: 10,
+
+                output: ''
+            }
+        },
+        methods: {
+            formSubmit(e) {
+
+                e.preventDefault();
+                this.freeRateCheck === true ? this.service.freeRate = 'true' : this.service.freeRate = 'false';
+
+                let currentObj = this;
+                const config = {
+                    headers: { 'content-type': 'multipart/form-data' }
+                }
+                let formData = new FormData();
+                if(this.service.logo && this.service.logo.name) {
+                    console.log(this.service.logo)
+                    formData.append('logo', this.service.logo);
+                }
+                formData.append('title', this.service.title);
+                formData.append('desc', this.service.desc);
+                formData.append('content', this.service.content);
+                formData.append('cat', this.cats);
+                formData.append('assessmentUse', this.service.assessmentUse);
+                formData.append('assessmentSupport', this.service.assessmentSupport);
+                formData.append('assessmentRecommend', this.service.assessmentRecommend);
+                formData.append('linkSite', this.service.linkSite);
+                formData.append('linkCases', this.service.linkCases);
+                formData.append('linkInstructions', this.service.linkInstructions);
+                formData.append('linkVideo', this.service.linkVideo);
+                formData.append('linkAPI', this.service.linkAPI);
+                formData.append('methodsPay', this.service.methodsPay);
+                formData.append('systemInstall', this.systemIntFormat);
+                formData.append('professions', this.professions);
+                formData.append('business', this.business);
+                formData.append('businessFor', this.businessFor);
+                formData.append('socials', this.service.socials);
+                formData.append('features', JSON.stringify(this.service.features));
+                formData.append('freeRate', this.service.freeRate);
+                formData.append('testPeriodDate', this.service.testPeriodDate);
+                formData.append('testPeriodLink', this.service.testPeriodLink);
+                formData.append('languages', this.languages);
+                formData.append('priceStart', this.service.priceStart);
+                formData.append('industries', this.service.industries);
+                formData.append('name', this.service.name);
+                formData.append('surname', this.service.surname);
+                formData.append('email', this.service.email);
+
+                if(this.service.image0 && this.service.image0.name) {formData.append('image0', this.service.image0);}
+                if(this.service.image1 && this.service.image1.name) {formData.append('image1', this.service.image1);}
+                if(this.service.image2 && this.service.image2.name) {formData.append('image2', this.service.image2);}
+                if(this.service.image3 && this.service.image3.name) {formData.append('image3', this.service.image3);}
+                if(this.service.image4 && this.service.image4.name) {formData.append('image4', this.service.image4);}
+                if(this.service.image5 && this.service.image5.name) {formData.append('image5', this.service.image5);}
+                if(this.service.image6 && this.service.image6.name) {formData.append('image6', this.service.image6);}
+                if(this.service.image7 && this.service.image7.name) {formData.append('image7', this.service.image7);}
+                if(this.service.image8 && this.service.image8.name) {formData.append('image8', this.service.image8);}
+                if(this.service.image9 && this.service.image9.name) {formData.append('image9', this.service.image9);}
+
+                let uri = process.env.baseUrl + `services/${this.$route.params.id}`;
+                axios.post(uri,formData, config)
+                    .then(function (response) {
+                        currentObj.output = response.data;
+                    })
+                    .catch(function (error) {
+                        currentObj.output = error;
+                    });
+            },
+            onImageChange(e){
+                this.service.logo = e.target.files[0];
+                this.readUrlImage(e.target)
+            },
+            readUrlImage(input){
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById('image').setAttribute('src', e.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            },
+            formationSystem(str){
+                if(str){
+                    let mas = [],
+                        j = 0;
+                    for (let i = 0; i < str.length; i++) {
+                        if (str[i] == ",") { j++; continue; }
+                        else {
+                            mas[j] ? mas[j] += str[i] : mas[j] = str[i];
+                        }
+                    }
+                    this.systemIntFormat = mas;
+                }
+            },
+            formationProfessions(str){
+                if(str){
+                    let mas = [],
+                        j = 0;
+                    for (let i = 0; i < str.length; i++) {
+                        if (str[i] == ",") { j++; continue; }
+                        else {
+                            mas[j] ? mas[j] += str[i] : mas[j] = str[i];
+                        }
+                    }
+                    this.professions = mas;
+                }
+            },
+            formationSelection(str, type){
+                if(str){
+                    let mas = [],
+                        j = 0;
+                    for (let i = 0; i < str.length; i++) {
+                        if (str[i] == ",") { j++; continue; }
+                        else {
+                            mas[j] ? mas[j] += str[i] : mas[j] = str[i];
+                        }
+                    }
+                    switch (type) {
+                        case 'businessFor':
+                            this.businessFor = mas;
+                            break;
+                        case 'business':
+                            this.business = mas;
+                            break;
+                        case 'languages':
+                            this.languages = mas;
+                            break;
+                        case 'cats':
+                            this.cats = mas;
+                            break;
+                        default:
+                            console.log('not selected massive');
+                    }
+                }
+            },
+            addFeatures(){
+                let currentLength = this.service.features.length + 1;
+                this.service.features.push({id: currentLength, title: '', list: [], desc: ''})
+            },
+            replaceImage(num){
+                const actionUploadCover = document.getElementById('imageCover' + num);
+                actionUploadCover.click();
+            },
+            onImageChangeImage(e){
+                let currentID = Number(e.target.getAttribute('data-item'))
+                console.log(currentID)
+                switch (currentID) {
+                    case 0:
+                        this.service.image0 = e.target.files[0];
+                        break;
+                    case 1:
+                        this.service.image1 = e.target.files[0];
+                        break;
+                    case 2:
+                        this.service.image2 = e.target.files[0];
+                        break;
+                    case 3:
+                        this.service.image3 = e.target.files[0];
+                        break;
+                    case 4:
+                        this.service.image4 = e.target.files[0];
+                        break;
+                    case 5:
+                        this.service.image5 = e.target.files[0];
+                        break;
+                    case 6:
+                        this.service.image6 = e.target.files[0];
+                        break;
+                    case 7:
+                        this.service.image7 = e.target.files[0];
+                        break;
+                    case 8:
+                        this.service.image8 = e.target.files[0];
+                        break;
+                    case 9:
+                        this.service.image9 = e.target.files[0];
+                        break;
+                    default:
+                        //console.log('not selected massive');
+                }
+                //this.logo = e.target.files[0];
+
+            },
+        },
+        mounted() {
+            if(this.$route.params.id){
+                let uri = process.env.baseUrl + `services/${this.$route.params.id}`;
+                axios.get(uri).then((response) => {
+                    this.service = response.data;
+
+                    response.data.freeRate === 'true' ? this.freeRateCheck = true : this.freeRateCheck = false
+
+                    this.formationSelection(response.data.business, 'business');
+                    this.formationSelection(response.data.businessFor, 'businessFor');
+                    this.formationSelection(response.data.languages, 'languages');
+                    this.formationSelection(response.data.cat, 'cats');
+
+                    this.formationSystem(response.data.systemInstall);
+                    this.formationProfessions(response.data.professions)
+
+                    this.loading = false;
+                });
+            }
+        },
+        computed: {
+            categories() {
+                return this.$store.state.data.category.categories;
+            },
+            systemInstallAll() {
+                return this.$store.state.data.others.systemInstall;
+            },
+            industriesAll() {
+                return this.$store.state.data.industries.industriesAll;
+            },
+            categoryAll() {
+                return this.$store.state.data.category_data.categoryAll;
+            },
+            languagesData() {
+                return this.$store.state.data.languages.languagesData;
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

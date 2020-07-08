@@ -1,0 +1,50 @@
+@import "site/base/variables";
+@import "site/base/fonts";
+
+@import "site/base/common";
+
+@import "site/layouts/header";
+@import "site/layouts/footer";
+
+
+//pages
+@import "site/pages/personal-area";
+@import "site/pages/personal-component";
+
+
+// base style
+@import "site/base/base";
+
+@import "site/blocks/slider";
+@import "site/blocks/search";
+@import "site/blocks/button";
+@import "site/blocks/form/input";
+@import "site/blocks/form/select";
+@import "site/blocks/form/textarea";
+@import "site/blocks/form/form";
+@import "site/blocks/form/upload";
+@import "site/blocks/form/date";
+@import "site/blocks/form/radio";
+@import "site/blocks/box/whom";
+@import "site/blocks/box/listCatalog";
+@import "site/blocks/box/cardService";
+@import "site/blocks/box/recommendations";
+@import "site/blocks/titleBox";
+@import "site/blocks/pages";
+@import "site/blocks/createService";
+@import "site/blocks/socialAuth";
+@import "site/blocks/table";
+@import "site/blocks/sammlungen";
+@import "site/blocks/instagram";
+@import "site/blocks/share";
+@import "site/pages/services";
+@import "site/blocks/modals";
+
+//icons
+@import "site/icons/languages";
+@import "site/icons/ohers";
+@import "site/icons/systems";
+
+
+
+@import "site/libs/font/fontawesome";
