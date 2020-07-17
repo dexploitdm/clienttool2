@@ -139,7 +139,7 @@
                                 border: 1px solid #4267b2;
 
                                 &:before {
-                                    background: url('../public/images/facebook(2).jpg') no-repeat;
+                                    background: url('/images/facebook(2).jpg') no-repeat;
                                 }
                             }
 
@@ -148,7 +148,7 @@
                                 width: 17px;
                                 height: 15px;
                                 left: 11px;
-                                background: url('../public/images/twitter.jpg') no-repeat;
+                                background: url('/images/twitter.jpg') no-repeat;
                                 top: 7px;
                                 content: '';
                                 background-size: contain;

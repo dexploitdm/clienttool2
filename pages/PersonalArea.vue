@@ -133,6 +133,120 @@
 
                     </div>
                     <aside>
+                        <div class="filters-content-box">
+                            <form action="">
+                                <div class="filters-box"  :class="{ 'is-active': inputEl }">
+                                    <h4 @click="inputEl = !inputEl" :class="{ 'is-active': inputEl }">Коллаборации</h4>
+                                    <div  class="input-container">
+                                        <div class="input-box">
+                                            <input type="checkbox" id="1.1">
+                                            <label for="1.1">Финансы </label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="1.2">
+                                            <label for="1.2">Финансы </label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="1.3">
+                                            <label for="1.3">Финансы </label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="1.4">
+                                            <label for="1.4">Финансы </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="filters-box"  :class="{ 'is-active': inputEl1 }">
+                                    <h4 @click="inputEl1 = !inputEl1" :class="{ 'is-active': inputEl1 }">Collaboration1</h4>
+                                    <div class="input-container">
+                                        <div class="input-box">
+                                            <input type="checkbox" id="2.1">
+                                            <label for="2.1">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="2.2">
+                                            <label for="2.2">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="2.3">
+                                            <label for="2.3">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="2.4">
+                                            <label for="2.4">Collaboration</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="filters-box"  :class="{ 'is-active': inputEl2 }">
+                                    <h4 @click="inputEl2 = !inputEl2" :class="{ 'is-active': inputEl2 }">Collaboration2</h4>
+                                    <div class="input-container">
+                                        <div class="input-box">
+                                            <input type="checkbox" id="3.1">
+                                            <label for="3.1">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="3.2">
+                                            <label for="3.2">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="3.3">
+                                            <label for="3.3">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="3.4">
+                                            <label for="3.4">Collaboration</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="filters-box"  :class="{ 'is-active': inputEl3 }">
+                                    <h4 @click="inputEl3 = !inputEl3" :class="{ 'is-active': inputEl3 }">Collaboration3</h4>
+                                    <div class="input-container">
+                                        <div class="input-box">
+                                            <input type="checkbox" id="4.1">
+                                            <label for="4.1">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="4.2">
+                                            <label for="4.2">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="4.3">
+                                            <label for="4.3">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="4.4">
+                                            <label for="4.4">Collaboration</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="filters-box"  :class="{ 'is-active': inputEl4}">
+                                    <h4 @click="inputEl4 = !inputEl4" :class="{ 'is-active': inputEl4 }">Collaboration4</h4>
+                                    <div class="input-container">
+                                        <div class="input-box">
+                                            <input type="checkbox" id="5.1">
+                                            <label for="5.1">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="5.2">
+                                            <label for="5.2">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="5.3">
+                                            <label for="5.3">Collaboration</label>
+                                        </div>
+                                        <div class="input-box">
+                                            <input type="checkbox" id="5.4">
+                                            <label for="5.4">Collaboration</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
                         <div class="aside-content">
                             <h2>
                                 Похожие категории
@@ -209,6 +323,11 @@ export default {
     data() {
 
         return {
+            inputEl:false,
+            inputEl1:false,
+            inputEl2:false,
+            inputEl3:false,
+            inputEl4:false,
             mobile_list: null,
             colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
             descriptionElement: [
