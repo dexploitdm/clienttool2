@@ -47,7 +47,8 @@ module.exports = {
       {src: './plugins/axios'},
       {src: './plugins/element-ui'},
       {src: 'plugins/owl.js', ssr: false},
-      {src: './plugins/clipboard'}
+      {src: './plugins/clipboard'},
+      {src: './plugins/swiper'}
   ],
 
   env: {
