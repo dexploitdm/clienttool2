@@ -15,6 +15,7 @@
             background: none;
             position: relative;
             z-index: 1;
+            background-color: red;
             &:before{
                 position: absolute;
                 height: 100%;
@@ -25,6 +26,11 @@
                 content:'';
                 z-index: -1;
                 border-radius: 4px;
+            }
+            &:hover {
+                &:before{
+                    width: 100%;
+                }
             }
         }
     }
