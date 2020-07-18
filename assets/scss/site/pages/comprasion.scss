@@ -165,7 +165,7 @@
                                     width: 18px;
                                     height: 18px;
                                     content:'';
-                                    background: url("/images/link.png");
+                                    background: url("../public/images/link.png");
                                     background-size: contain;
                                 }
                                 &:hover{
@@ -283,7 +283,7 @@
                                         font: 14px/2.143 $am;
                                         color: #33363c;
                                         position: relative;
-                                        padding:0 26px;
+                                        padding:0 22px;
                                     }
                                     .question {
                                         cursor: pointer;
@@ -296,7 +296,7 @@
                                             height: 12px;
                                             background-size: contain;
                                             background-repeat: no-repeat;
-                                            background-image: url("/images/question.jpg");
+                                            background-image: url("../public/images/question.jpg");
                                         }
                                     }
 
@@ -310,7 +310,7 @@
                                             height: 15px;
                                             background-size: contain;
                                             background-repeat: no-repeat;
-                                            background-image: url("/images/bef2.jpg");
+                                            background-image: url("../public/images/bef2.jpg");
                                         }
 
                                     }
@@ -325,7 +325,7 @@
                                             height: 16px;
                                             background-size: contain;
                                             background-repeat: no-repeat;
-                                            background-image: url("/images/bef1.jpg");
+                                            background-image: url("../public/images/bef1.jpg");
                                         }
 
                                     }
@@ -356,7 +356,7 @@
                                             height: 15px;
                                             background-size: contain;
                                             background-repeat: no-repeat;
-                                            background-image: url("/images/bef2.jpg");
+                                            background-image: url("../public/images/bef2.jpg");
                                         }
 
                                     }
@@ -371,7 +371,7 @@
                                             height: 16px;
                                             background-size: contain;
                                             background-repeat: no-repeat;
-                                            background-image: url("/images/bef1.jpg");
+                                            background-image: url("../public/images/bef1.jpg");
                                         }
 
                                     }
