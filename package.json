@@ -23,7 +23,7 @@
     "cross-env": "^5.2.0",
     "element-ui": "^2.13.0",
     "npm-sass": "^2.3.0",
-    "nuxt": "^2.6.3",
+    "nuxt": "^2.15.8",
     "sass-loader": "^7.1.0",
     "swiper": "^6.0.4",
     "v-clipboard": "^2.2.3",
